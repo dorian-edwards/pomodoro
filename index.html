@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="main.js" defer></script>
+    <title>Pomodoro</title>
+  </head>
+  <body>
+    <main>
+      <h1 class="title">Work</h1>
+      <h2 class="time">00:00</h2>
+
+      <form>
+        <section class="timer-controls">
+          <button class="start btn">start</button>
+          <button class="stop btn">stop</button>
+        </section>
+        <section class="options">
+          <h3 class="options-title">Timer Options</h3>
+          <div class="control-wrapper">
+            <label for="work-length"> Work Length </label>
+            <input
+              id="work-length"
+              class="work-length"
+              type="text"
+              value="25"
+              required
+            />
+
+            <label for="short-break">Short Break</label>
+            <input
+              id="short-break"
+              class="short-break"
+              type="text"
+              value="5"
+              required
+            />
+
+            <label for="long-break">Long Break</label>
+            <input
+              id="long-break"
+              class="long-break"
+              type="text"
+              value="15"
+              required
+            />
+          </div>
+        </section>
+        <button class="form-submit btn">Submit</button>
+      </form>
+      <h4 class="warning"></h4>
+    </main>
+  </body>
+</html>
