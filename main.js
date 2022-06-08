@@ -124,13 +124,6 @@ class Timer {
   }
 
   stop() {
-    console.log(this)
-    // resets everything
-    // reset count
-    // reset time left
-    // set to work mode (default) (working true)
-    // set timer._running to false
-    // set interval to null
 
     this.timeLeft = this.work
     this.working = true
@@ -245,10 +238,30 @@ function showWarning(message) {
 }
 
 async function getImage() {
-  const response = await fetch(
-    'https://images-api.nasa.gov/search?q=space&media_type=image'
-  )
+// generate two random numbers one for page number and another for item number
+const pageNumber = Math.floor(Math.random() * 100) + 1
+const arrayElement = Math.floor(Math.random() * 100) + 1
 
-  const res = await response.json()
-  console.log(res.collection.items)
+const response1 = await fetch(`https://images-api.nasa.gov/search?q=space&media_type=image&page=${pageNumber}`)
+const response1JSON = await response1.json()
+
+const picObj = response1JSON.collection.items[arrayElement]
+const id = picObj.data[0].nasa_id
+const response2 = await fetch(`https://images-api.nasa.gov/asset/${id}`)
+const response2JSON = await response2.json()
+
+const img = response2JSON.collection.items[0].href
+
+console.log(img)
+
+document.querySelector('body').setAttribute('style', `background: url(${img}) center/cover no-repeat;`)
+
+
+// send request to https://images-api.nasa.gov/search?q=space&media_type=image&page=[randomPageNumber]
+// to get a list of 100 potential items [array]
+// access random object from this array and get NASA ID
+// use this id to fetch specific image https://images-api.nasa.gov/asset/[nasa ID]
+// set this image as url for background image
 }
+
+getImage()

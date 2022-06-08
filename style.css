@@ -14,6 +14,11 @@ html {
   padding: 0;
 }
 
+html, body {
+    height: 100%;
+}
+
+
 img {
   width: 100%;
 }
@@ -34,6 +39,15 @@ a:visited {
   display: block;
   font-size: inherit;
 } */
+
+body {
+     background: url('https://images-assets.nasa.gov/image/PIA17847/PIA17847~orig.jpg') center/cover no-repeat;
+}
+
+e {
+  background: center / contain no-repeat url("../../media/examples/firefox-logo.svg"),
+            #eee 35% url("../../media/examples/lizard.png");
+}
 
 body {
   font: 1.6rem/1.5 'Montserrat', sans-serif;
