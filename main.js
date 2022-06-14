@@ -124,7 +124,6 @@ class Timer {
   }
 
   stop() {
-
     this.timeLeft = this.work
     this.working = true
     clearInterval(this.interval)
@@ -169,6 +168,7 @@ const start = label('.start')
 const stop = label('.stop')
 const title = label('.title')
 const warning = label('.warning')
+let imageInterval = null
 
 const DOM = {
   display,
@@ -211,7 +211,20 @@ submit.addEventListener('click', (e) => {
 
 start.addEventListener('click', (e) => {
   e.preventDefault()
-  if (!timer.running) return timer.start()
+  if (!timer.running) {
+    document
+      .querySelector('.site-img')
+      .setAttribute(
+        'src',
+        'https://planetary.s3.amazonaws.com/web/assets/pictures/20200401_bg_planetary-society_cassini-in-saturns-shadow_uhd3840x2160.jpg'
+      )
+    document
+      .querySelector('.site-img')
+      .setAttribute('style', `animation: 70s ease-in effect${1};`)
+    document.querySelector('.overlay').classList.toggle('fade')
+    setInterval(getImage, 60000)
+    return timer.start()
+  }
   timer.pause()
 })
 
@@ -238,30 +251,41 @@ function showWarning(message) {
 }
 
 async function getImage() {
-// generate two random numbers one for page number and another for item number
-const pageNumber = Math.floor(Math.random() * 100) + 1
-const arrayElement = Math.floor(Math.random() * 100) + 1
+  let found = false
+  let img
+  const effectNo = Math.floor(Math.random() * 3) + 1
 
-const response1 = await fetch(`https://images-api.nasa.gov/search?q=space&media_type=image&page=${pageNumber}`)
-const response1JSON = await response1.json()
+  document.querySelector('.overlay').classList.toggle('fade')
 
-const picObj = response1JSON.collection.items[arrayElement]
-const id = picObj.data[0].nasa_id
-const response2 = await fetch(`https://images-api.nasa.gov/asset/${id}`)
-const response2JSON = await response2.json()
+  let imgTimer = setTimeout(async () => {
+    while (!found) {
+      // for images using saturn as keyword, 70 is the max number of pages
+      const pageNumber = Math.floor(Math.random() * 70) + 1
+      const response1 = await fetch(
+        `https://images-api.nasa.gov/search?q=planet&media_type=image&page=${pageNumber}`
+      )
+      const response1JSON = await response1.json()
 
-const img = response2JSON.collection.items[0].href
+      // generate random no. based on max size of array
+      const max = response1JSON.collection.items.length
+      const arrayElement = Math.floor(Math.random() * max)
 
-console.log(img)
+      const picObj = response1JSON.collection.items[arrayElement]
+      const id = picObj.data[0].nasa_id
 
-document.querySelector('body').setAttribute('style', `background: url(${img}) center/cover no-repeat;`)
+      const response2 = await fetch(`https://images-api.nasa.gov/asset/${id}`)
+      const response2JSON = await response2.json()
 
-
-// send request to https://images-api.nasa.gov/search?q=space&media_type=image&page=[randomPageNumber]
-// to get a list of 100 potential items [array]
-// access random object from this array and get NASA ID
-// use this id to fetch specific image https://images-api.nasa.gov/asset/[nasa ID]
-// set this image as url for background image
+      img = response2JSON.collection.items[0].href
+      if (!img.endsWith('.tif')) {
+        found = true
+      }
+    }
+    document.querySelector('.site-img').setAttribute('src', img)
+    document
+      .querySelector('.site-img')
+      .setAttribute('style', `animation: 70s ease-in effect${effectNo};`)
+    document.querySelector('.overlay').classList.toggle('fade')
+    clearTimeout(imgTimer)
+  }, 2000)
 }
-
-getImage()

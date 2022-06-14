@@ -14,13 +14,10 @@ html {
   padding: 0;
 }
 
-html, body {
-    height: 100%;
-}
-
-
-img {
-  width: 100%;
+html,
+body {
+  height: 100%;
+  overflow: hidden;
 }
 
 li {
@@ -41,16 +38,34 @@ a:visited {
 } */
 
 body {
-     background: url('https://images-assets.nasa.gov/image/PIA17847/PIA17847~orig.jpg') center/cover no-repeat;
-}
-
-e {
-  background: center / contain no-repeat url("../../media/examples/firefox-logo.svg"),
-            #eee 35% url("../../media/examples/lizard.png");
-}
-
-body {
   font: 1.6rem/1.5 'Montserrat', sans-serif;
+  position: relative;
+  padding-top: 10rem;
+  z-index: 100;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0);
+  opacity: 1;
+  z-index: -1;
+  transition: opacity 2s linear;
+}
+
+.overlay.fade {
+  opacity: 0.75;
+}
+
+.site-img {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  z-index: -2;
 }
 
 /* Timer styling */
@@ -64,10 +79,11 @@ body {
 main {
   width: 95%;
   max-width: 600px;
-  margin: 10rem auto 0 auto;
+  margin: auto;
   border: 1px solid blueviolet;
   padding: 2rem;
   border-radius: 5px;
+  color: white;
 }
 
 .title,
@@ -137,4 +153,40 @@ main {
   margin: 2rem auto 0 auto;
   opacity: 0;
   transition: opacity 1.5s linear;
+}
+
+.site-img {
+  animation: 70s ease-in infinite reverse both running effect1;
+}
+
+/*  */
+
+@keyframes effect1 {
+  from {
+    transform: translate(-50px, -50px);
+  }
+
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes effect2 {
+  from {
+    transform: translate(0px, 0px);
+  }
+
+  to {
+    transform: translate(50px, 50px);
+  }
+}
+
+@keyframes effect3 {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(3);
+  }
 }
