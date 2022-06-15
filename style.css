@@ -30,13 +30,6 @@ a:visited {
   text-decoration: none;
 }
 
-/* button {
-  border: none;
-  background: none;
-  display: block;
-  font-size: inherit;
-} */
-
 body {
   font: 1.6rem/1.5 'Montserrat', sans-serif;
   position: relative;
@@ -80,9 +73,9 @@ main {
   width: 95%;
   max-width: 600px;
   margin: auto;
-  border: 1px solid blueviolet;
+  border: 1px solid #0892d0;
   padding: 2rem;
-  border-radius: 5px;
+  border-radius: 100px;
   color: white;
 }
 
