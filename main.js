@@ -11,6 +11,9 @@ class Timer {
     this._running = false
     this._DOM.display.textContent = this.toString()
     this._count = 0
+    this._DOM.workLength.value = this.work / 60
+    this._DOM.shortBreak.value = this.shortBreak / 60
+    this._DOM.longBreak.value = this.longBreak / 60
   }
 
   // getters and setters
@@ -86,7 +89,8 @@ class Timer {
       // if timer is complete
       if (this.timeLeft === 0) {
         clearInterval(this.interval)
-
+        const audio = new Audio('sound.wav')
+        audio.play()
         if (this.working) {
           // if working timer
           if (this.count === 2) {
@@ -165,9 +169,10 @@ const shortBreak = label('.short-break')
 const longBreak = label('.long-break')
 const submit = label('.form-submit')
 const start = label('.start')
-const stop = label('.stop')
+const stopButton = label('.stop')
 const title = label('.title')
 const warning = label('.warning')
+const overlay = document.querySelector('.overlay')
 let imageInterval = null
 
 const DOM = {
@@ -201,6 +206,8 @@ submit.addEventListener('click', (e) => {
       longBreakUserInput,
       DOM
     )
+
+    timer.stop()
   } catch (err) {
     workLength.value = ''
     shortBreak.value = ''
@@ -211,24 +218,22 @@ submit.addEventListener('click', (e) => {
 
 start.addEventListener('click', (e) => {
   e.preventDefault()
+  const img = document.querySelector('.site-img')
+  if (!img.getAttribute('src')) {
+    img.setAttribute(
+      'src',
+      'https://planetary.s3.amazonaws.com/web/assets/pictures/20200401_bg_planetary-society_cassini-in-saturns-shadow_uhd3840x2160.jpg'
+    )
+    overlay.classList.toggle('fade')
+  }
   if (!timer.running) {
-    document
-      .querySelector('.site-img')
-      .setAttribute(
-        'src',
-        'https://planetary.s3.amazonaws.com/web/assets/pictures/20200401_bg_planetary-society_cassini-in-saturns-shadow_uhd3840x2160.jpg'
-      )
-    document
-      .querySelector('.site-img')
-      .setAttribute('style', `animation: 70s ease-in effect${1};`)
-    document.querySelector('.overlay').classList.toggle('fade')
-    setInterval(getImage, 60000)
+    setInterval(getImage, 30000)
     return timer.start()
   }
   timer.pause()
 })
 
-stop.addEventListener('click', (e) => {
+stopButton.addEventListener('click', (e) => {
   e.preventDefault()
   return timer && timer.stop()
 })
@@ -251,11 +256,12 @@ function showWarning(message) {
 }
 
 async function getImage() {
-  let found = false
-  let img
-  const effectNo = Math.floor(Math.random() * 3) + 1
+  let img,
+    found = false
 
-  document.querySelector('.overlay').classList.toggle('fade')
+  const effectNo = Math.floor(Math.random() * 4) + 1
+
+  overlay.classList.toggle('fade') // takes 5s
 
   let imgTimer = setTimeout(async () => {
     while (!found) {
@@ -281,11 +287,12 @@ async function getImage() {
         found = true
       }
     }
+
     document.querySelector('.site-img').setAttribute('src', img)
     document
       .querySelector('.site-img')
       .setAttribute('style', `animation: 70s ease-in effect${effectNo};`)
     document.querySelector('.overlay').classList.toggle('fade')
     clearTimeout(imgTimer)
-  }, 2000)
+  }, 6000)
 }
