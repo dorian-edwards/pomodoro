@@ -289,9 +289,9 @@ async function getImage() {
     }
 
     document.querySelector('.site-img').setAttribute('src', img)
-    document
-      .querySelector('.site-img')
-      .setAttribute('style', `animation: 70s ease-in effect${effectNo};`)
+    // document
+    //   .querySelector('.site-img')
+    //   .setAttribute('style', `animation: 70s ease-in effect${effectNo};`)
     document.querySelector('.overlay').classList.toggle('fade')
     clearTimeout(imgTimer)
   }, 6000)
