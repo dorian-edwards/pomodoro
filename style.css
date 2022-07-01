@@ -155,7 +155,24 @@ main {
   animation: 70s ease-in infinite reverse both running effect1;
 } */
 
-/*  */
+/* Media Queries */
+@media (max-height: 550px) {
+  html {
+    font-size: 50%;
+  }
+
+  main {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-height: 320px) or (max-width: 360px) {
+  html {
+    font-size: 37.5%;
+  }
+}
+
+/* Animations */
 
 @keyframes effect1 {
   from {
